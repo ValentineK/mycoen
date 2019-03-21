@@ -1,0 +1,15 @@
+mkdir ~/.mycoen
+
+if [ -n "$(command -v git)" ]; then
+  echo 'Git is required but not installed on your machine'
+  exit 1
+fi
+
+if [ -d "$HOME/.mycoen" ]; then
+  cd $HOME/.mycoen
+  git pull
+else
+  git clone git@bitbucket.org:valentinekonov/mycoen.git $HOME/.mycoen
+  cd $HOME/.mycoen
+fi
+
