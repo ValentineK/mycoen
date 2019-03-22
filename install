@@ -15,3 +15,7 @@ else
   cd $HOME/.mycoen
 fi
 
+if [ -n "$(grep 'source $HOME/.mycoen/.bashrc' /home/tin/.bashrc)" ]; then
+  echo '# My Console Environment initial' >> $HOME/.bashrc
+  echo 'source $HOME/.mycoen/.bashrc' >> $HOME/.bashrc
+fi
