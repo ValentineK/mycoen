@@ -2,7 +2,7 @@
 
 mkdir ~/.mycoen
 
-if [ -n "$(command -v git)" ]; then
+if [ -z "$(command -v git)" ]; then
   echo 'Git is required but not installed on your machine'
   exit 1
 fi
@@ -15,7 +15,7 @@ else
   cd $HOME/.mycoen
 fi
 
-if [ -n "$(grep 'source $HOME/.mycoen/.bashrc' /home/tin/.bashrc)" ]; then
+if [ -z "$(grep 'source $HOME/.mycoen/.bashrc' /home/tin/.bashrc)" ]; then
   echo '# My Console Environment initial' >> $HOME/.bashrc
   echo 'source $HOME/.mycoen/.bashrc' >> $HOME/.bashrc
 fi
