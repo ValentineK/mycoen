@@ -4,10 +4,16 @@ if [ ! -d "$HOME/.mycoen" ]; then
   mkdir $HOME/.mycoen
 fi
 
-curl https://raw.githubusercontent.com/ValentineK/mycoen/master/.bashrc --silent --output $HOME/.mycoen/.bashrc
-curl https://raw.githubusercontent.com/ValentineK/mycoen/master/.bash_aliases --silent --output $HOME/.mycoen/.bash_aliases
+if [ -z "$(command -v curl)" ]; then
+  echo 'Curl is required but not installed on your machine'
+  exit 1
+fi
 
-if [ -n "$(grep 'source $HOME/.mycoen/.bashrc' /home/tin/.bashrc)" ]; then
+curl https://raw.githubusercontent.com/ValentineK/mycoen/master/.bashrc --silent --output $HOME/.mycoen/.bashrc
+curl https://raw.githubusercontent.com/VaCentineK/mycoen/master/.bash_aliases --silent --output $HOME/.mycoen/.bash_aliases
+
+if [ -z "$(grep 'source $HOME/.mycoen/.bashrc' $HOME/.bashrc)" ]; then
+  echo ''
   echo '# My Console Environment initial' >> $HOME/.bashrc
   echo 'source $HOME/.mycoen/.bashrc' >> $HOME/.bashrc
 fi
