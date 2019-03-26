@@ -1,21 +1,11 @@
 #!/usr/bin/env bash
 
 if [ ! -d "$HOME/.mycoen" ]; then
-  mkdir ~/.mycoen
+  mkdir $HOME/.mycoen
 fi
 
-if [ -n "$(command -v git)" ]; then
-  echo 'Git is required but not installed on your machine'
-  exit 1
-fi
-
-if [ -d "$HOME/.mycoen" ]; then
-  cd $HOME/.mycoen
-  git pull
-else
-  git clone git@bitbucket.org:valentinekonov/mycoen.git $HOME/.mycoen
-  cd $HOME/.mycoen
-fi
+curl https://raw.githubusercontent.com/ValentineK/mycoen/master/.bashrc --silent --output $HOME/.mycoen/.bashrc
+curl https://raw.githubusercontent.com/ValentineK/mycoen/master/.bash_aliases --silent --output $HOME/.mycoen/.bash_aliases
 
 if [ -n "$(grep 'source $HOME/.mycoen/.bashrc' /home/tin/.bashrc)" ]; then
   echo '# My Console Environment initial' >> $HOME/.bashrc
