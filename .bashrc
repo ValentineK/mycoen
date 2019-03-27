@@ -36,8 +36,22 @@ git_branch() {
   fi
 }
 
-export PS1="[\e[1;33m\u\e[1;39m@\e[1;92m\h \e[1;96m\W\e[00m]\[\e[00;32m\]\$(git_branch)\[\e[00m\]\$ "
+PS1_DEFAULT_WHITE="\[\e[00m\]"
+PS1_COLOR_USER="\[\e[1;33m\]"
+PS1_COLOR_AT="\[\e[1;39m\]"
+PS1_COLOR_HOST="\[\e[1;92m\]"
+PS1_COLOR_PATH="\[\e[1;96m\]"
+PS1_COLOR_BRANCH="\[\e[00;32m\]"
+PS1_COLOR_ENDING="\[\e[00m\]"
 
+PS1_SYMBOL_ENDING="$"
+
+if [ $(id -u) -eq 0 ]; then
+  PS1_SYMBOL_ENDING="#"
+  PS1_COLOR_USER="\[\e[1;31m\]"
+fi
+
+export PS1="${PS1_DEFAULT_WHITE}[${PS1_COLOR_USER}\u${PS1_COLOR_AT}@${PS1_COLOR_HOST}\h ${PS1_COLOR_PATH}\W${PS1_DEFAULT_WHITE}]${PS1_COLOR_BRANCH}\$(git_branch)${PS1_COLOR_ENDING}${PS1_SYMBOL_ENDING} "
 
 # set a fancy prompt (non-color, unless we know we "want" color)
 case "$TERM" in
