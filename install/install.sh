@@ -47,9 +47,17 @@ install_pkg() {
 
 # ── Install neovim from GitHub releases ───────────────────────────────────────
 install_neovim() {
+    local min_major=0 min_minor=8
     if command -v nvim &>/dev/null; then
-        success "neovim already installed ($(nvim --version | head -1))"
-        return
+        local version major minor
+        version="$(nvim --version | head -1 | grep -oE '[0-9]+\.[0-9]+\.[0-9]+')"
+        major="$(echo "$version" | cut -d. -f1)"
+        minor="$(echo "$version" | cut -d. -f2)"
+        if [ "$major" -gt "$min_major" ] || { [ "$major" -eq "$min_major" ] && [ "$minor" -ge "$min_minor" ]; }; then
+            success "neovim already installed (v$version)"
+            return
+        fi
+        warn "neovim v$version is too old (need >= $min_major.$min_minor), reinstalling..."
     fi
     if command -v brew &>/dev/null; then
         info "Installing neovim via brew..."
