@@ -4,6 +4,14 @@ set -euo pipefail
 DOTFILES_DIR="$(cd "$(dirname "$0")/.." && pwd)"
 DEPLOY_DIR="$DOTFILES_DIR/deploy"
 
+# ── Flags ─────────────────────────────────────────────────────────────────────
+QUIET=false
+for arg in "$@"; do
+    case "$arg" in
+        -q|--quiet) QUIET=true ;;
+    esac
+done
+
 # ── Colors ────────────────────────────────────────────────────────────────────
 RED='\033[0;31m'; GREEN='\033[0;32m'; YELLOW='\033[1;33m'
 CYAN='\033[0;36m'; BOLD='\033[1m'; RESET='\033[0m'
@@ -35,6 +43,37 @@ install_pkg() {
         return 1
     fi
     success "$pkg installed"
+}
+
+# ── Install neovim from GitHub releases ───────────────────────────────────────
+install_neovim() {
+    if command -v nvim &>/dev/null; then
+        success "neovim already installed ($(nvim --version | head -1))"
+        return
+    fi
+    if command -v brew &>/dev/null; then
+        info "Installing neovim via brew..."
+        brew install neovim
+        return
+    fi
+    local arch
+    arch="$(uname -m)"
+    case "$arch" in
+        x86_64)  local tarball="nvim-linux-x86_64.tar.gz" ;;
+        aarch64) local tarball="nvim-linux-arm64.tar.gz" ;;
+        *)
+            error "Unsupported architecture: $arch"
+            return 1
+            ;;
+    esac
+    local url="https://github.com/neovim/neovim/releases/latest/download/$tarball"
+    local tmp
+    tmp="$(mktemp -d)"
+    info "Downloading neovim ($arch)..."
+    curl -fLo "$tmp/$tarball" "$url"
+    info "Installing to /usr/local..."
+    sudo tar -C /usr/local --strip-components=1 -xzf "$tmp/$tarball"
+    rm -rf "$tmp"
 }
 
 # ── Clone or update ───────────────────────────────────────────────────────────
@@ -89,7 +128,12 @@ copy_config() {
         return
     fi
 
-    # Different — show diff and ask
+    # Different — show diff and ask (or auto-overwrite in quiet mode)
+    if $QUIET; then
+        cp "$src" "$dest"
+        success "Updated $rel"
+        return
+    fi
     echo ""
     echo -e "${YELLOW}── diff: $rel ──────────────────────────────────────${RESET}"
     diff --color=always "$dest" "$src" || true
@@ -182,8 +226,23 @@ info "Running vim +PlugInstall..."
 vim -E -s -u "$HOME/.vimrc" +PlugInstall +qall 2>/dev/null || true
 success "vim plugins installed"
 
-# ── 8. Default shell ──────────────────────────────────────────────────────────
-header "8. Default shell"
+# ── 8. neovim (optional) ──────────────────────────────────────────────────────
+header "8. neovim (optional)"
+if $QUIET; then
+    info "Skipping neovim (quiet mode)"
+else
+    printf "  Install neovim? [y/N] "
+    read -r answer </dev/tty
+    if [[ "$answer" =~ ^[Yy]$ ]]; then
+        install_neovim
+        success "neovim ready — run 'nvim' to start"
+    else
+        info "Skipping neovim"
+    fi
+fi
+
+# ── 9. Default shell ──────────────────────────────────────────────────────────
+header "9. Default shell"
 ZSH_PATH="$(command -v zsh)"
 if [ "$SHELL" = "$ZSH_PATH" ]; then
     success "zsh is already the default shell"
