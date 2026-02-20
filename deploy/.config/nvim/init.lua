@@ -92,6 +92,13 @@ require("lazy").setup({
         },
     },
 
+    -- Claude Code integration
+    {
+        "greggh/claude-code.nvim",
+        dependencies = { "nvim-lua/plenary.nvim" },
+        opts = {},
+    },
+
     -- Colorscheme
     {
         "catppuccin/nvim",
