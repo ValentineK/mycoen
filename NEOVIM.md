@@ -13,6 +13,47 @@ Lua config with [lazy.nvim](https://github.com/folke/lazy.nvim) as plugin manage
 | vim-visual-multi | Multi-cursor |
 | fzf-lua | Fuzzy file/grep search (uses system fzf) |
 | which-key.nvim | Keybinding hints on pause |
+| catppuccin | Colorscheme (mocha flavour) |
+| nvim-treesitter | Syntax highlighting + indentation |
+| mason.nvim | LSP server installer |
+| mason-lspconfig | Wires mason servers into lspconfig |
+| nvim-lspconfig | LSP client config |
+| blink.cmp | Completion engine |
+
+## LSP servers
+
+Installed automatically by Mason on first launch:
+
+| Server | Language |
+|--------|----------|
+| `lua_ls` | Lua |
+| `pyright` | Python |
+| `ts_ls` | JavaScript / TypeScript |
+| `bashls` | Bash / Shell |
+| `ruby_lsp` | Ruby |
+| `terraformls` | Terraform / HCL |
+| `dockerls` | Dockerfile |
+| `yamlls` | YAML |
+| `rust_analyzer` | Rust |
+
+**Useful LSP commands:**
+
+| Command / Key | Action |
+|---------------|--------|
+| `K` | Hover documentation |
+| `gd` | Go to definition |
+| `gr` | Go to references |
+| `:LspInfo` | Show active LSP for current file |
+| `:Mason` | Open Mason UI to manage servers |
+
+## Completion (blink.cmp)
+
+| Key | Action |
+|-----|--------|
+| `Tab` / `S-Tab` | Navigate suggestions |
+| `Enter` | Confirm selection |
+
+Sources: LSP, path, snippets, buffer.
 
 ## Leader key
 

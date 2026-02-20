@@ -52,3 +52,13 @@ Managed by [vim-plug](https://github.com/junegunn/vim-plug). Installed automatic
 | vim-fugitive + gv.vim | Git integration |
 | git-blame.vim | Line blame (`\s`) |
 | vim-visual-multi | Multi-cursor |
+
+## Neovim
+
+Lua config at `deploy/.config/nvim/init.lua`, managed by [lazy.nvim](https://github.com/folke/lazy.nvim). Plugins install automatically on first launch.
+
+Includes: catppuccin theme, treesitter highlighting, LSP (mason + lspconfig), blink.cmp completions, fzf-lua, gitsigns, which-key.
+
+**LSP servers:** `lua_ls`, `pyright`, `ts_ls`, `bashls`, `ruby_lsp`, `terraformls`, `dockerls`, `yamlls`, `rust_analyzer`
+
+See [NEOVIM.md](NEOVIM.md) for keybindings and usage.
