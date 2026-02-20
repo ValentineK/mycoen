@@ -47,6 +47,51 @@ require("lazy").setup({
     -- Keybinding hints
     { "folke/which-key.nvim", event = "VeryLazy", opts = {} },
 
+    -- Syntax highlighting
+    {
+        "nvim-treesitter/nvim-treesitter",
+        build = ":TSUpdate",
+        config = function()
+            require("nvim-treesitter.configs").setup({
+                ensure_installed = {
+                    "lua", "python", "javascript", "typescript", "tsx",
+                    "bash", "ruby", "terraform", "hcl", "dockerfile", "yaml", "json",
+                    "rust",
+                },
+                highlight = { enable = true },
+                indent   = { enable = true },
+            })
+        end,
+    },
+
+    -- LSP servers + completion
+    {
+        "williamboman/mason-lspconfig.nvim",
+        dependencies = {
+            { "williamboman/mason.nvim",    opts = {} },
+            { "neovim/nvim-lspconfig" },
+        },
+        opts = {
+            ensure_installed = {
+                "lua_ls", "pyright", "ts_ls", "bashls",
+                "ruby_lsp", "terraformls", "dockerls", "yamlls", "rust_analyzer",
+            },
+            handlers = {
+                function(server_name)
+                    require("lspconfig")[server_name].setup({})
+                end,
+            },
+        },
+    },
+    {
+        "saghen/blink.cmp",
+        version = "*",
+        opts = {
+            keymap  = { preset = "default" },
+            sources = { default = { "lsp", "path", "snippets", "buffer" } },
+        },
+    },
+
     -- Colorscheme
     {
         "catppuccin/nvim",
