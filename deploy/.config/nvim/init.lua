@@ -33,6 +33,17 @@ require("lazy").setup({
     -- Multi-cursor
     { "mg979/vim-visual-multi", branch = "master" },
 
+    -- Fuzzy finder
+    {
+        "ibhagwan/fzf-lua",
+        keys = {
+            { "<leader>ff", "<cmd>FzfLua files<cr>",    desc = "Find files" },
+            { "<leader>fg", "<cmd>FzfLua live_grep<cr>",  desc = "Live grep" },
+            { "<leader>fG", "<cmd>FzfLua grep<cr>",      desc = "Fuzzy grep" },
+            { "<leader>fb", "<cmd>FzfLua buffers<cr>",  desc = "Buffers" },
+        },
+    },
+
     -- Keybinding hints
     { "folke/which-key.nvim", event = "VeryLazy", opts = {} },
 })

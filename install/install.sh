@@ -243,6 +243,7 @@ else
     read -r answer </dev/tty
     if [[ "$answer" =~ ^[Yy]$ ]]; then
         install_neovim
+        install_pkg ripgrep
         success "neovim ready — run 'nvim' to start"
     else
         info "Skipping neovim"
