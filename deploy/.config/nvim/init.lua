@@ -50,17 +50,15 @@ require("lazy").setup({
     -- Syntax highlighting
     {
         "nvim-treesitter/nvim-treesitter",
+        lazy  = false,
         build = ":TSUpdate",
-        main  = "nvim-treesitter.configs",
-        opts  = {
-            ensure_installed = {
+        config = function()
+            require("nvim-treesitter").install({
                 "lua", "python", "javascript", "typescript", "tsx",
                 "bash", "ruby", "terraform", "hcl", "dockerfile", "yaml", "json",
                 "rust",
-            },
-            highlight = { enable = true },
-            indent    = { enable = true },
-        },
+            })
+        end,
     },
 
     -- LSP servers + completion
