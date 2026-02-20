@@ -46,6 +46,17 @@ require("lazy").setup({
 
     -- Keybinding hints
     { "folke/which-key.nvim", event = "VeryLazy", opts = {} },
+
+    -- Colorscheme
+    {
+        "catppuccin/nvim",
+        name = "catppuccin",
+        priority = 1000,
+        opts = { flavour = "mocha" },
+        init = function()
+            vim.cmd.colorscheme("catppuccin")
+        end,
+    },
 })
 
 -- ── Basic settings ─────────────────────────────────────────────────────────────
