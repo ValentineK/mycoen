@@ -71,7 +71,7 @@ require("lazy").setup({
         opts = {
             ensure_installed = {
                 "lua_ls", "pyright", "ts_ls", "bashls",
-                "ruby_lsp", "terraformls", "dockerls", "yamlls", "rust_analyzer",
+                "terraformls", "dockerls", "yamlls", "rust_analyzer",
             },
             handlers = {
                 function(server_name)
