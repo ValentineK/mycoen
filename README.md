@@ -59,6 +59,14 @@ Lua config at `deploy/.config/nvim/init.lua`, managed by [lazy.nvim](https://git
 
 Includes: catppuccin theme, treesitter highlighting, LSP (mason + lspconfig), blink.cmp completions, fzf-lua, gitsigns, which-key.
 
+**Requirement:** treesitter parsers are compiled via `tree-sitter-cli`. Install it once manually:
+
+```sh
+sudo npm install -g tree-sitter-cli@0.22.6
+```
+
+> On systems with glibc < 2.39 (e.g. Raspberry Pi / Debian 12), pin to `0.22.6` — newer versions require glibc 2.39.
+
 **LSP servers:** `lua_ls`, `pyright`, `ts_ls`, `bashls`, `ruby_lsp`, `terraformls`, `dockerls`, `yamlls`, `rust_analyzer`
 
 See [NEOVIM.md](NEOVIM.md) for keybindings and usage.
