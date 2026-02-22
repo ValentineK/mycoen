@@ -244,6 +244,23 @@ else
     if [[ "$answer" =~ ^[Yy]$ ]]; then
         install_neovim
         install_pkg ripgrep
+        # node + npm — required by Mason for pyright and ts_ls
+        if command -v node &>/dev/null && command -v npm &>/dev/null; then
+            success "node already installed ($(node --version))"
+        else
+            info "Installing node + npm (required for Mason LSP servers)..."
+            if command -v brew &>/dev/null; then
+                brew install node
+            elif command -v apt-get &>/dev/null; then
+                sudo apt-get install -y nodejs npm
+            elif command -v dnf &>/dev/null; then
+                sudo dnf install -y nodejs npm
+            elif command -v pacman &>/dev/null; then
+                sudo pacman -S --noconfirm nodejs npm
+            else
+                warn "Cannot install node/npm: no supported package manager found"
+            fi
+        fi
         success "neovim ready — run 'nvim' to start"
     else
         info "Skipping neovim"
