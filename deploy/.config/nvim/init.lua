@@ -53,10 +53,13 @@ require("lazy").setup({
         lazy  = false,
         build = ":TSUpdate",
         config = function()
-            require("nvim-treesitter").install({
-                "lua", "python", "javascript", "typescript", "tsx",
-                "bash", "ruby", "terraform", "hcl", "dockerfile", "yaml", "json",
-                "rust",
+            require("nvim-treesitter.configs").setup({
+                ensure_installed = {
+                    "lua", "python", "javascript", "typescript", "tsx",
+                    "bash", "ruby", "terraform", "hcl", "dockerfile", "yaml", "json",
+                    "rust",
+                },
+                highlight = { enable = true },
             })
         end,
     },
