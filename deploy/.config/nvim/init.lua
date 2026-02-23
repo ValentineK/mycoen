@@ -33,6 +33,10 @@ require("lazy").setup({
         },
     },
 
+    -- Auto-pairs and surround
+    { "windwp/nvim-autopairs", event = "InsertEnter", opts = {} },
+    { "tpope/vim-surround" },
+
     -- Multi-cursor
     { "mg979/vim-visual-multi", branch = "master" },
 
