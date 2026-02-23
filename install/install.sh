@@ -261,6 +261,21 @@ else
                 warn "Cannot install node/npm: no supported package manager found"
             fi
         fi
+        # tree-sitter-cli — required by nvim-treesitter to compile parsers
+        if command -v tree-sitter &>/dev/null; then
+            success "tree-sitter-cli already installed ($(tree-sitter --version))"
+        else
+            info "Installing tree-sitter-cli..."
+            # glibc < 2.39 requires pinned version 0.22.6
+            local glibc_minor
+            glibc_minor="$(ldd --version 2>/dev/null | head -1 | grep -oE '[0-9]+\.[0-9]+$' | cut -d. -f2 || echo 99)"
+            if [ "$glibc_minor" -lt 39 ] 2>/dev/null; then
+                sudo npm install -g tree-sitter-cli@0.22.6
+            else
+                sudo npm install -g tree-sitter-cli
+            fi
+            success "tree-sitter-cli installed"
+        fi
         success "neovim ready — run 'nvim' to start"
     else
         info "Skipping neovim"
