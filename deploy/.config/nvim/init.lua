@@ -39,6 +39,17 @@ require("lazy").setup({
     -- Fuzzy finder
     {
         "ibhagwan/fzf-lua",
+        opts = {
+            winopts = {
+                height  = 0.85,
+                width   = 0.80,
+                preview = { layout = "vertical", vertical = "down:45%" },
+            },
+            fzf_colors = {
+                ["hl"]  = { "fg", "String" },
+                ["hl+"] = { "fg", "String" },
+            },
+        },
         keys = {
             { "<leader>ff", "<cmd>FzfLua files<cr>",    desc = "Find files" },
             { "<leader>fg", "<cmd>FzfLua live_grep<cr>",  desc = "Live grep" },
