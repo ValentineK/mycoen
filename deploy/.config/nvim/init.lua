@@ -103,6 +103,17 @@ require("lazy").setup({
         },
     },
 
+    -- File explorer
+    {
+        "stevearc/oil.nvim",
+        opts = {
+            view_options = { show_hidden = true },
+        },
+        keys = {
+            { "-", "<cmd>Oil<cr>", desc = "Open parent directory" },
+        },
+    },
+
     -- Claude Code integration
     {
         "greggh/claude-code.nvim",
@@ -139,3 +150,6 @@ vim.opt.termguicolors = true
 vim.opt.scrolloff = 8
 vim.opt.signcolumn = "yes"
 vim.opt.updatetime = 250
+
+-- ── Keymaps ─────────────────────────────────────────────────────────────────────
+vim.keymap.set("t", "<Esc><Esc>", "<C-\\><C-n>", { desc = "Exit terminal mode" })
