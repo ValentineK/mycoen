@@ -106,6 +106,8 @@ require("lazy").setup({
             vim.cmd.colorscheme("catppuccin")
         end,
     },
+}, {
+    rocks = { enabled = false },
 })
 
 -- ── Basic settings ─────────────────────────────────────────────────────────────
