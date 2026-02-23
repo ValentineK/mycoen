@@ -26,7 +26,10 @@ require("lazy").setup({
             current_line_blame = false,
         },
         keys = {
-            { "<Leader>s", "<cmd>Gitsigns blame_line<cr>" },
+            { "<Leader>s",  "<cmd>Gitsigns blame_line<cr>" },
+            { "<Leader>hs", "<cmd>Gitsigns stage_hunk<cr>",   mode = { "n", "v" }, desc = "Stage hunk" },
+            { "<Leader>hr", "<cmd>Gitsigns reset_hunk<cr>",   mode = { "n", "v" }, desc = "Reset hunk" },
+            { "<Leader>hu", "<cmd>Gitsigns undo_stage_hunk<cr>",                   desc = "Undo stage hunk" },
         },
     },
 
