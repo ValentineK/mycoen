@@ -45,6 +45,31 @@ install_pkg() {
     success "$pkg installed"
 }
 
+# ── Install starship from GitHub releases ─────────────────────────────────────
+install_starship() {
+    local local_bin="$HOME/.local/bin"
+    mkdir -p "$local_bin"
+
+    local latest
+    latest="$(curl -fsSL 'https://api.github.com/repos/starship/starship/releases/latest' \
+        | python3 -c 'import sys,json; print(json.load(sys.stdin)["tag_name"][1:])')"
+
+    if command -v starship &>/dev/null; then
+        local current
+        current="$(starship --version | grep -oE '[0-9]+\.[0-9]+\.[0-9]+')"
+        if [ "$current" = "$latest" ]; then
+            success "starship already at v$latest"
+            return
+        fi
+        info "Updating starship $current → $latest"
+    else
+        info "Installing starship v$latest..."
+    fi
+
+    curl -sS https://starship.rs/install.sh | sh -s -- --bin-dir "$local_bin" --yes
+    success "starship v$latest installed"
+}
+
 # ── Install neovim from GitHub releases ───────────────────────────────────────
 install_neovim() {
     local min_major=0 min_minor=8
@@ -170,7 +195,7 @@ echo ""
 
 # ── 1. System packages ────────────────────────────────────────────────────────
 header "1. System packages"
-for pkg in git zsh curl vim; do
+for pkg in git zsh curl vim tmux; do
     install_pkg "$pkg"
 done
 
@@ -282,8 +307,12 @@ else
     fi
 fi
 
-# ── 9. Default shell ──────────────────────────────────────────────────────────
-header "9. Default shell"
+# ── 9. starship ───────────────────────────────────────────────────────────────
+header "9. starship"
+install_starship
+
+# ── 10. Default shell ─────────────────────────────────────────────────────────
+header "10. Default shell"
 ZSH_PATH="$(command -v zsh)"
 if [ "$SHELL" = "$ZSH_PATH" ]; then
     success "zsh is already the default shell"

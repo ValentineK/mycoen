@@ -1,0 +1,56 @@
+# Starship prompt configuration
+
+format = """
+$directory$git_branch$git_status$python$nodejs$terraform$rust$docker_context$cmd_duration
+$character"""
+
+[directory]
+truncation_length = 4
+truncate_to_repo = true
+
+[git_branch]
+format = "[$branch]($style) "
+style = "bold purple"
+
+[git_status]
+format = '([$all_status$ahead_behind]($style) )'
+style = "bold red"
+conflicted = "!"
+ahead = "⇡${count}"
+behind = "⇣${count}"
+modified = "~"
+untracked = "?"
+staged = "+"
+deleted = "-"
+
+[character]
+success_symbol = "[❯](bold green)"
+error_symbol = "[❯](bold red)"
+
+[cmd_duration]
+min_time = 2_000
+format = "[${duration}](bold yellow) "
+
+[python]
+format = "[${virtualenv}]($style) "
+style = "bold yellow"
+detect_files = ["requirements.txt", "pyproject.toml", ".python-version"]
+
+[nodejs]
+format = "[node]($style) "
+style = "bold green"
+detect_files = ["package.json"]
+
+[terraform]
+format = "[tf]($style) "
+style = "bold 105"
+detect_extensions = ["tf", "tfvars"]
+
+[rust]
+format = "[rs]($style) "
+style = "bold orange"
+
+[docker_context]
+format = "[docker:$context]($style) "
+style = "bold blue"
+only_with_files = true
