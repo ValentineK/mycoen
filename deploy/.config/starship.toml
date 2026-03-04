@@ -1,8 +1,21 @@
 # Starship prompt configuration
 
 format = """
-$directory$git_branch$git_status$python$nodejs$terraform$rust$docker_context$cmd_duration
+$directory\
+$git_branch$\
+git_status$\
+fill$\
+python$\
+nodejs$\
+terraform$\
+rust$\
+docker_context$\
+jobs$\
+cmd_duration
 $character"""
+
+[fill]
+symbol = ' '
 
 [directory]
 truncation_length = 4
