@@ -88,6 +88,69 @@ install_tfenv() {
     success "tfenv installed → $LOCAL_SRC/tfenv"
 }
 
+# ── kubectl ────────────────────────────────────────────────────────────────────
+install_kubectl() {
+    header "kubectl"
+    case "$ARCH" in
+        x86_64)  local arch="amd64" ;;
+        aarch64) local arch="arm64" ;;
+        *) error "Unsupported arch for kubectl: $ARCH"; return 1 ;;
+    esac
+
+    local latest
+    latest="$(curl -fsSL https://dl.k8s.io/release/stable.txt | tr -d 'v')"
+
+    if command -v kubectl &>/dev/null; then
+        local current
+        current="$(kubectl version --client -o json 2>/dev/null | python3 -c 'import sys,json; print(json.load(sys.stdin)["clientVersion"]["gitVersion"][1:])')"
+        if [ "$current" = "$latest" ]; then
+            success "kubectl already at v$latest"
+            return
+        fi
+        info "Updating kubectl $current → $latest"
+    else
+        info "Installing kubectl v$latest..."
+    fi
+
+    curl -fLo "$LOCAL_BIN/kubectl" "https://dl.k8s.io/release/v${latest}/bin/linux/${arch}/kubectl"
+    chmod +x "$LOCAL_BIN/kubectl"
+    success "kubectl v$latest → $LOCAL_BIN/kubectl"
+}
+
+# ── k9s ────────────────────────────────────────────────────────────────────────
+install_k9s() {
+    header "k9s"
+    case "$ARCH" in
+        x86_64)  local arch="amd64" ;;
+        aarch64) local arch="arm64" ;;
+        *) error "Unsupported arch for k9s: $ARCH"; return 1 ;;
+    esac
+
+    local latest
+    latest="$(curl -fsSL 'https://api.github.com/repos/derailed/k9s/releases/latest' \
+        | python3 -c 'import sys,json; print(json.load(sys.stdin)["tag_name"][1:])')"
+
+    if command -v k9s &>/dev/null; then
+        local current
+        current="$(k9s version --short 2>/dev/null | grep -oE '[0-9]+\.[0-9]+\.[0-9]+')"
+        if [ "$current" = "$latest" ]; then
+            success "k9s already at v$latest"
+            return
+        fi
+        info "Updating k9s $current → $latest"
+    else
+        info "Installing k9s v$latest..."
+    fi
+
+    local tmp; tmp="$(mktemp -d)"
+    curl -fLo "$tmp/k9s.tar.gz" "https://github.com/derailed/k9s/releases/download/v${latest}/k9s_Linux_${arch}.tar.gz"
+    tar -C "$tmp" -xzf "$tmp/k9s.tar.gz" k9s
+    cp "$tmp/k9s" "$LOCAL_BIN/k9s"
+    chmod +x "$LOCAL_BIN/k9s"
+    rm -rf "$tmp"
+    success "k9s v$latest → $LOCAL_BIN/k9s"
+}
+
 # ── atuin ──────────────────────────────────────────────────────────────────────
 install_atuin() {
     header "atuin"
@@ -101,7 +164,7 @@ install_atuin() {
 }
 
 # ── main ───────────────────────────────────────────────────────────────────────
-ALL_APPS=(glab gcloud tfenv atuin)
+ALL_APPS=(glab gcloud tfenv atuin kubectl k9s)
 
 REQUESTED=("$@")
 if [ ${#REQUESTED[@]} -eq 0 ]; then
@@ -110,10 +173,12 @@ fi
 
 for app in "${REQUESTED[@]}"; do
     case "$app" in
-        glab)   install_glab   ;;
-        gcloud) install_gcloud ;;
-        tfenv)  install_tfenv  ;;
-        atuin)  install_atuin  ;;
+        glab)    install_glab    ;;
+        gcloud)  install_gcloud  ;;
+        tfenv)   install_tfenv   ;;
+        atuin)   install_atuin   ;;
+        kubectl) install_kubectl ;;
+        k9s)     install_k9s     ;;
         *) error "Unknown app: $app (available: ${ALL_APPS[*]})"; exit 1 ;;
     esac
 done
