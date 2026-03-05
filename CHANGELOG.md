@@ -1,3 +1,7 @@
+## 0.5.0
+* [change chsh to sudo usermod to be more universal](f4ba725)
+* [update README](c82df8b)
+
 ## 0.4.0
 * [add bootstrap.sh and curl install one-liners](f8433f5)
 * [add tmux plugins](e3fe05e)
