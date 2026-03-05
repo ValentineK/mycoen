@@ -21,6 +21,14 @@ Clones the repo to `~/.dotfiles` (or pulls if it already exists) and runs the in
 
 Installs: `zsh`, `oh-my-zsh`, `zsh-autosuggestions`, `zsh-syntax-highlighting`, `fzf`, `vim-plug` + vim plugins, sets zsh as default shell.
 
+### Non-interactive install
+
+Use `--quiet` to skip all prompts (auto-overwrites config files, skips neovim):
+
+```sh
+curl -fsSL https://raw.githubusercontent.com/ValentineK/mycoen/refs/heads/master/install/bootstrap.sh | sh -s -- --quiet
+```
+
 ### Optional apps
 
 ```sh
