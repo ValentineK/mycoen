@@ -11,14 +11,27 @@ install/      installer script
 
 **Deployed configs:** `.zshrc`, `.vimrc`, `.profile`, `.gitconfig`, `.gitignore`, `.atuin/config.toml`, `.zshrc.d/` (atuin, fzf, gcloud, glab, glop, vscode)
 
-## Install
+## Installation
 
 ```sh
-git clone <repo-url> ~/.dotfiles
-~/.dotfiles/install/install.sh
+curl -fsSL https://raw.githubusercontent.com/ValentineK/mycoen/refs/heads/master/install/bootstrap.sh | sh
 ```
 
+Clones the repo to `~/.dotfiles` (or pulls if it already exists) and runs the installer.
+
 Installs: `zsh`, `oh-my-zsh`, `zsh-autosuggestions`, `zsh-syntax-highlighting`, `fzf`, `vim-plug` + vim plugins, sets zsh as default shell.
+
+### Optional apps
+
+```sh
+# Install all optional apps
+curl -fsSL https://raw.githubusercontent.com/ValentineK/mycoen/refs/heads/master/install/apps.sh | zsh
+
+# Install specific apps
+curl -fsSL https://raw.githubusercontent.com/ValentineK/mycoen/refs/heads/master/install/apps.sh | zsh -s -- glab kubectl
+```
+
+Available: `glab`, `gcloud`, `tfenv`, `atuin`, `kubectl`, `k9s`
 
 ## Update
 
