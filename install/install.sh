@@ -336,12 +336,12 @@ if [ "$SHELL" = "$ZSH_PATH" ]; then
 else
     info "Changing default shell to zsh..."
     if grep -qx "$ZSH_PATH" /etc/shells; then
-        chsh -s "$ZSH_PATH"
+        sudo usermod -s "$ZSH_PATH" "$USER"
         success "Default shell changed to zsh (takes effect on next login)"
     else
         warn "zsh not in /etc/shells, adding it..."
         echo "$ZSH_PATH" | sudo tee -a /etc/shells
-        chsh -s "$ZSH_PATH"
+        sudo usermod -s "$ZSH_PATH" "$USER"
         success "Default shell changed to zsh"
     fi
 fi
