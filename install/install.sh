@@ -232,8 +232,15 @@ else
     success "fzf already set up"
 fi
 
-# ── 5. vim-plug ───────────────────────────────────────────────────────────────
-header "5. vim-plug"
+# ── 5. tmux plugin manager (TPM) ─────────────────────────────────────────────
+header "5. tmux plugin manager"
+clone_or_update \
+    "https://github.com/tmux-plugins/tpm" \
+    "$HOME/.tmux/plugins/tpm" \
+    "tpm"
+
+# ── 6. vim-plug ───────────────────────────────────────────────────────────────
+header "6. vim-plug"
 PLUG_PATH="$HOME/.vim/autoload/plug.vim"
 if [ -f "$PLUG_PATH" ]; then
     success "vim-plug already installed"
@@ -244,8 +251,8 @@ else
     success "vim-plug installed"
 fi
 
-# ── 6. Deploy config files ────────────────────────────────────────────────────
-header "6. Config files"
+# ── 7. Deploy config files ────────────────────────────────────────────────────
+header "7. Config files"
 for item in "$DEPLOY_DIR"/.*; do
     [ -e "$item" ] || continue
     base="$(basename "$item")"
@@ -253,14 +260,24 @@ for item in "$DEPLOY_DIR"/.*; do
     copy_config "$item" "$HOME/$base"
 done
 
-# ── 7. vim plugins ────────────────────────────────────────────────────────────
-header "7. vim plugins"
+# ── 8. tmux plugins ───────────────────────────────────────────────────────────
+header "8. tmux plugins"
+if command -v tmux &>/dev/null; then
+    info "Installing tmux plugins via TPM..."
+    "$HOME/.tmux/plugins/tpm/bin/install_plugins" 2>/dev/null || true
+    success "tmux plugins installed"
+else
+    warn "tmux not found, skipping plugin install"
+fi
+
+# ── 10. vim plugins ───────────────────────────────────────────────────────────
+header "10. vim plugins"
 info "Running vim +PlugInstall..."
 vim -E -s -u "$HOME/.vimrc" +PlugInstall +qall 2>/dev/null || true
 success "vim plugins installed"
 
-# ── 8. neovim (optional) ──────────────────────────────────────────────────────
-header "8. neovim (optional)"
+# ── 11. neovim (optional) ─────────────────────────────────────────────────────
+header "11. neovim (optional)"
 if $QUIET; then
     info "Skipping neovim (quiet mode)"
 else
@@ -307,12 +324,12 @@ else
     fi
 fi
 
-# ── 9. starship ───────────────────────────────────────────────────────────────
-header "9. starship"
+# ── 12. starship ──────────────────────────────────────────────────────────────
+header "12. starship"
 install_starship
 
-# ── 10. Default shell ─────────────────────────────────────────────────────────
-header "10. Default shell"
+# ── 13. Default shell ─────────────────────────────────────────────────────────
+header "13. Default shell"
 ZSH_PATH="$(command -v zsh)"
 if [ "$SHELL" = "$ZSH_PATH" ]; then
     success "zsh is already the default shell"
