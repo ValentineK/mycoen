@@ -157,3 +157,4 @@ vim.opt.updatetime = 250
 
 -- ── Keymaps ─────────────────────────────────────────────────────────────────────
 vim.keymap.set("t", "<Esc><Esc>", "<C-\\><C-n>", { desc = "Exit terminal mode" })
+vim.api.nvim_create_user_command('W', 'w !sudo tee %', {})
