@@ -1,7 +1,7 @@
 # Starship prompt configuration
 
 format = """
-$directory\
+$username$hostname$directory\
 $git_branch$\
 git_status$\
 fill$\
@@ -13,6 +13,17 @@ docker_context$\
 jobs$\
 cmd_duration
 $character"""
+
+[username]
+format = "[$user]($style)@"
+style_user = "bold green"
+style_root = "bold red"
+show_always = true
+
+[hostname]
+format = "[$hostname]($style) "
+style = "bold blue"
+ssh_only = false
 
 [fill]
 symbol = ' '
