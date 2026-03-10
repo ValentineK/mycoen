@@ -26,3 +26,5 @@ set relativenumber
 " git-blame.vim configuration
 " Press <Leader>s (default is \s) to show git blame for current line
 nnoremap <Leader>s :<C-u>call gitblame#echo()<CR>
+
+command W w !sudo tee %
