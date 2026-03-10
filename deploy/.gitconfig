@@ -1,3 +1,5 @@
 [core]
 	excludesFile = ~/.gitignore
 	editor = vim
+[user]
+	name = Valentin Konov
