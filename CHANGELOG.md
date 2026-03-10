@@ -1,6 +1,8 @@
 ## 0.6.0
 * [add :W to nvim to sudo write file](0baa3aa)
 * [add :W to vim to sudo write file](f5ae297)
+* [add split window tmux behaviour to open it same path](4554922)
+* [add my name to gitconfig](70ac244)
 
 ## 0.5.0
 * [change chsh to sudo usermod to be more universal](f4ba725)
