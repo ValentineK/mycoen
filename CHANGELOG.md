@@ -1,3 +1,6 @@
+## 0.6.1
+* [fix adding path atuin before testing it](bee6390)
+
 ## 0.6.0
 * [add :W to nvim to sudo write file](0baa3aa)
 * [add :W to vim to sudo write file](f5ae297)
