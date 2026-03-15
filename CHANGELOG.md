@@ -1,3 +1,7 @@
+## 0.6.2
+* [add copy in tmux like in vim](51c5a37)
+* [add gentoo support](67545a7)
+
 ## 0.6.1
 * [fix adding path atuin before testing it](bee6390)
 
