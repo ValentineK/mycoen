@@ -38,6 +38,8 @@ install_pkg() {
         sudo dnf install -y "$pkg"
     elif command -v pacman &>/dev/null; then
         sudo pacman -S --noconfirm "$pkg"
+    elif command -v emerge &>/dev/null; then
+        sudo emerge --ask=n "$pkg"
     else
         error "Cannot install $pkg: no supported package manager found"
         return 1
@@ -299,6 +301,8 @@ else
                 sudo dnf install -y nodejs npm
             elif command -v pacman &>/dev/null; then
                 sudo pacman -S --noconfirm nodejs npm
+            elif command -v emerge &>/dev/null; then
+                sudo emerge --ask=n net-libs/nodejs
             else
                 warn "Cannot install node/npm: no supported package manager found"
             fi
