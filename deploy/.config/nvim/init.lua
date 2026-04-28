@@ -74,7 +74,7 @@ require("lazy").setup({
             ensure_installed = {
                 "lua", "python", "javascript", "typescript", "tsx",
                 "bash", "ruby", "terraform", "hcl", "dockerfile", "yaml", "json",
-                "rust",
+                "rust", "vimdoc",
             },
         },
     },
