@@ -3,3 +3,5 @@
 	editor = vim
 [user]
 	name = Valentin Konov
+[push]
+	autoSetupRemote = true
