@@ -23,6 +23,11 @@ plugins=(
 
 source $ZSH/oh-my-zsh.sh
 
+# Bracketed paste: properly handle paste sequences so text isn't split on spaces
+# and ~[200~ doesn't appear at the start of pasted content
+autoload -Uz bracketed-paste-magic
+zle -N bracketed-paste bracketed-paste-magic
+
 # User configuration
 export LC_ALL=en_US.UTF-8
 export LANG=en_US.UTF-8
