@@ -151,6 +151,40 @@ install_k9s() {
     success "k9s v$latest → $LOCAL_BIN/k9s"
 }
 
+# ── task (go-task) ─────────────────────────────────────────────────────────────
+install_task() {
+    header "task"
+    case "$ARCH" in
+        x86_64)  local arch="amd64" ;;
+        aarch64) local arch="arm64" ;;
+        *) error "Unsupported arch for task: $ARCH"; return 1 ;;
+    esac
+
+    local latest
+    latest="$(curl -fsSL 'https://api.github.com/repos/go-task/task/releases/latest' \
+        | python3 -c 'import sys,json; print(json.load(sys.stdin)["tag_name"][1:])')"
+
+    if command -v task &>/dev/null; then
+        local current
+        current="$(task --version 2>/dev/null | grep -oE '[0-9]+\.[0-9]+\.[0-9]+')"
+        if [ "$current" = "$latest" ]; then
+            success "task already at v$latest"
+            return
+        fi
+        info "Updating task $current → $latest"
+    else
+        info "Installing task v$latest..."
+    fi
+
+    local tmp; tmp="$(mktemp -d)"
+    curl -fLo "$tmp/task.tar.gz" "https://github.com/go-task/task/releases/download/v${latest}/task_linux_${arch}.tar.gz"
+    tar -C "$tmp" -xzf "$tmp/task.tar.gz" task
+    cp "$tmp/task" "$LOCAL_BIN/task"
+    chmod +x "$LOCAL_BIN/task"
+    rm -rf "$tmp"
+    success "task v$latest → $LOCAL_BIN/task"
+}
+
 # ── atuin ──────────────────────────────────────────────────────────────────────
 install_atuin() {
     header "atuin"
@@ -164,7 +198,7 @@ install_atuin() {
 }
 
 # ── main ───────────────────────────────────────────────────────────────────────
-ALL_APPS=(glab gcloud tfenv atuin kubectl k9s)
+ALL_APPS=(glab gcloud tfenv atuin kubectl k9s task)
 
 REQUESTED=("$@")
 if [ ${#REQUESTED[@]} -eq 0 ]; then
@@ -179,6 +213,7 @@ for app in "${REQUESTED[@]}"; do
         atuin)   install_atuin   ;;
         kubectl) install_kubectl ;;
         k9s)     install_k9s     ;;
+        task)    install_task    ;;
         *) error "Unknown app: $app (available: ${ALL_APPS[*]})"; exit 1 ;;
     esac
 done
